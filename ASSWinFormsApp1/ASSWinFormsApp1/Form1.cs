@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace ASSWinFormsApp1
@@ -15,78 +9,85 @@ namespace ASSWinFormsApp1
         public Form1()
         {
             InitializeComponent();
-            notifyIcon1.Icon=this.Icon;
+            notifyIcon1.Icon = this.Icon;
         }
 
-
-
-        public static readonly int WH_KEYBOARD_LL   = 13;
-        public static readonly int WM_KEYDOWN       = 0x100;
-        public static readonly int WM_KEYUP         = 0x101;
-        public static readonly int WM_SYSKEYDOWN    = 0x104;
-        public static readonly int WM_SYSKEYUP      = 0x105;
+        const int WH_KEYBOARD_LL = 13;
+        const int WM_KEYUP = 0x0101;
+        const int VK_SNAPSHOT = 0x2C;
 
 
 
+        public delegate int keyboardHookProc(int code, int wParam, ref KBDLLHOOKSTRUCT lParam);
 
-
-    public struct KeyboardHookData {
-        public int vkCode;
-        public int scanCode;
-        public int flags;
-        public int time;
-        public int dwExtraInfo;
-    }   
-
-    public delegate int keyboardHookProc(int code, int wParam, ref KeyboardHookData lParam);   
-    
 
         [DllImport("user32.dll")]
         static extern IntPtr SetWindowsHookEx(int idHook, keyboardHookProc callback, IntPtr hInstance, uint threadId);
 
         [DllImport("user32.dll")]
-        static extern bool UnhookWindowsHookEx(IntPtr hInstance); 
-           
+        static extern bool UnhookWindowsHookEx(IntPtr hInstance);
+
         [DllImport("user32.dll")]
-        static extern int CallNextHookEx(IntPtr idHook, int nCode, int wParam, ref KeyboardHookData lParam);  
+        static extern int CallNextHookEx(IntPtr idHook, int nCode, int wParam, ref KBDLLHOOKSTRUCT lParam);
 
         [DllImport("kernel32.dll")]
-        static extern IntPtr LoadLibrary(string lpFileName);    
+        static extern IntPtr LoadLibrary(string lpFileName);
 
 
 
-
-        protected IntPtr hhook = IntPtr.Zero;
-
-        public virtual void hook(){
-            //Get library instance
-            IntPtr hInstance = LoadLibrary("User32");
-            //Call library hook function
-            hhook = SetWindowsHookEx(WH_KEYBOARD_LL, _hookProc, hInstance, 0);
-        }
-
-        public virtual void unhook(){     
-            //Call library unhook function
-            UnhookWindowsHookEx(hhook); 
-        }
-
-        private int _hookProc(int code, int wParam, ref KeyboardHookData lParam){
-            if (code >= 0) {          
+        private int _hookProc(int code, int wParam, ref KBDLLHOOKSTRUCT lParam)
+        {
+            if (code >= 0)
+            {
+                if (wParam == WM_KEYUP && lParam.vkCode == VK_SNAPSHOT)
+                {
+                    if (Clipboard.ContainsImage())
+                    {
+                        pictureBox1.Image = Clipboard.GetImage();
+                    }
+                }
                 return 0;
             }
             else
                 return CallNextHookEx(hhook, code, wParam, ref lParam);
         }
 
-
         private void button1_Click(object sender, EventArgs e)
         {
 
+        }
+
+
+        IntPtr hhook;
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            IntPtr hInstance = LoadLibrary("User32");
+            //Call library hook function
+            hhook = SetWindowsHookEx(WH_KEYBOARD_LL, _hookProc, hInstance, 0);
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (hhook != IntPtr.Zero)
+            {
+                //Call library unhook function
+                UnhookWindowsHookEx(hhook);
+            }
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
+    }
+
+    public struct KBDLLHOOKSTRUCT
+    {
+        public uint vkCode;
+        public uint scanCode;
+        public uint flags;
+        public uint time;
+        public ulong dwExtraInfo;
     }
 }
