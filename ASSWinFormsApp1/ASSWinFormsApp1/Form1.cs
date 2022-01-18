@@ -6,14 +6,10 @@ namespace ASSWinFormsApp1
 {
     public partial class Form1 : Form
     {
-        public Form1()
-        {
-            InitializeComponent();
-            notifyIcon1.Icon = this.Icon;
-        }
-
+        const int HC_ACTION = 0;
         const int WH_KEYBOARD_LL = 13;
         const int WM_KEYUP = 0x0101;
+        const int WM_SYSKEYUP = 0x0105;
         const int VK_SNAPSHOT = 0x2C;
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
@@ -32,30 +28,26 @@ namespace ASSWinFormsApp1
         [DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         public static extern IntPtr GetModuleHandle([Optional] string lpModuleName);
 
+        public Form1()
+        {
+            InitializeComponent();
+            notifyIcon1.Icon = this.Icon;
+        }
 
         IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, ref KBDLLHOOKSTRUCT lParam)
         {
-            if (nCode >= 0)
+            if (nCode == HC_ACTION)
             {
-                if ((int)wParam == WM_KEYUP && lParam.vkCode == VK_SNAPSHOT)
+                if (((int)wParam == WM_KEYUP || (int)wParam == WM_SYSKEYUP) && lParam.vkCode == VK_SNAPSHOT)
                 {
                     if (Clipboard.ContainsImage())
                     {
                         pictureBox1.Image = Clipboard.GetImage();
                     }
                 }
-                return IntPtr.Zero;
             }
-            else
-                return CallNextHookEx(hhook, nCode, wParam, ref lParam);
+            return CallNextHookEx(hhook, nCode, wParam, ref lParam);
         }
-
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
 
         IntPtr hhook;
 
@@ -76,6 +68,11 @@ namespace ASSWinFormsApp1
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 
