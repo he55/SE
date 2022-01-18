@@ -15,7 +15,17 @@ namespace ASSWinFormsApp1
         public Form1()
         {
             InitializeComponent();
+            notifyIcon1.Icon=this.Icon;
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
