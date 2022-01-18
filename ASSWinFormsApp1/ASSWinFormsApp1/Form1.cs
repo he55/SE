@@ -16,41 +16,40 @@ namespace ASSWinFormsApp1
         const int WM_KEYUP = 0x0101;
         const int VK_SNAPSHOT = 0x2C;
 
+        [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+        public delegate IntPtr HookProc(int nCode, IntPtr wParam, ref KBDLLHOOKSTRUCT lParam);
+
+        [DllImport("User32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern IntPtr SetWindowsHookEx(int idHook, HookProc lpfn, IntPtr hmod, int dwThreadId);
+
+        [DllImport("User32.dll", SetLastError = true, ExactSpelling = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool UnhookWindowsHookEx(IntPtr hhk);
+
+        [DllImport("User32.dll", SetLastError = false, ExactSpelling = true)]
+        public static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, ref KBDLLHOOKSTRUCT lParam);
+
+        [DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern IntPtr GetModuleHandle([Optional] string lpModuleName);
 
 
-        public delegate int keyboardHookProc(int code, int wParam, ref KBDLLHOOKSTRUCT lParam);
-
-
-        [DllImport("user32.dll")]
-        static extern IntPtr SetWindowsHookEx(int idHook, keyboardHookProc callback, IntPtr hInstance, uint threadId);
-
-        [DllImport("user32.dll")]
-        static extern bool UnhookWindowsHookEx(IntPtr hInstance);
-
-        [DllImport("user32.dll")]
-        static extern int CallNextHookEx(IntPtr idHook, int nCode, int wParam, ref KBDLLHOOKSTRUCT lParam);
-
-        [DllImport("kernel32.dll")]
-        static extern IntPtr LoadLibrary(string lpFileName);
-
-
-
-        private int _hookProc(int code, int wParam, ref KBDLLHOOKSTRUCT lParam)
+        IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, ref KBDLLHOOKSTRUCT lParam)
         {
-            if (code >= 0)
+            if (nCode >= 0)
             {
-                if (wParam == WM_KEYUP && lParam.vkCode == VK_SNAPSHOT)
+                if ((int)wParam == WM_KEYUP && lParam.vkCode == VK_SNAPSHOT)
                 {
                     if (Clipboard.ContainsImage())
                     {
                         pictureBox1.Image = Clipboard.GetImage();
                     }
                 }
-                return 0;
+                return IntPtr.Zero;
             }
             else
-                return CallNextHookEx(hhook, code, wParam, ref lParam);
+                return CallNextHookEx(hhook, nCode, wParam, ref lParam);
         }
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -62,16 +61,14 @@ namespace ASSWinFormsApp1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            IntPtr hInstance = LoadLibrary("User32");
-            //Call library hook function
-            hhook = SetWindowsHookEx(WH_KEYBOARD_LL, _hookProc, hInstance, 0);
+            IntPtr hh = GetModuleHandle(null);
+            hhook = SetWindowsHookEx(WH_KEYBOARD_LL, LowLevelKeyboardProc, hh, 0);
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (hhook != IntPtr.Zero)
             {
-                //Call library unhook function
                 UnhookWindowsHookEx(hhook);
             }
         }
@@ -88,6 +85,6 @@ namespace ASSWinFormsApp1
         public uint scanCode;
         public uint flags;
         public uint time;
-        public ulong dwExtraInfo;
+        public UIntPtr dwExtraInfo;
     }
 }
