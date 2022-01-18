@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ASSWinFormsApp1"
         mc:Ignorable="d"
-        Title="Window1" Height="200" Width="300" Topmost="True" WindowStartupLocation="CenterScreen">
+        Title="Window1" Height="200" Width="300" Topmost="True" WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
     <Grid>
         <Grid Background="#FFEFB9B9">
             <Image x:Name="image1"/>
