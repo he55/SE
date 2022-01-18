@@ -23,5 +23,14 @@ namespace ASSWinFormsApp1
         {
             InitializeComponent();
         }
+
+        public string ImagePath
+        {
+            set
+            {
+                Uri uri = new Uri(value);
+                image1.Source = new BitmapImage(uri);
+            }
+        }
     }
 }

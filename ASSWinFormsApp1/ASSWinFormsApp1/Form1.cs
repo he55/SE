@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -28,10 +29,25 @@ namespace ASSWinFormsApp1
         [DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         public static extern IntPtr GetModuleHandle([Optional] string lpModuleName);
 
+
+        Window1 window1 = new Window1();
+
         public Form1()
         {
             InitializeComponent();
             notifyIcon1.Icon = this.Icon;
+        }
+
+        void saveImage()
+        {
+            if (Clipboard.ContainsImage())
+            {
+                string tmp = Path.GetTempFileName();
+                System.Drawing.Image image = Clipboard.GetImage();
+                image.Save(tmp, System.Drawing.Imaging.ImageFormat.Png);
+
+                window1.ImagePath = tmp;
+            }
         }
 
         IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, ref KBDLLHOOKSTRUCT lParam)
@@ -40,21 +56,23 @@ namespace ASSWinFormsApp1
             {
                 if (((int)wParam == WM_KEYUP || (int)wParam == WM_SYSKEYUP) && lParam.vkCode == VK_SNAPSHOT)
                 {
-                    if (Clipboard.ContainsImage())
-                    {
-                        pictureBox1.Image = Clipboard.GetImage();
-                    }
+                    saveImage();
                 }
             }
             return CallNextHookEx(hhook, nCode, wParam, ref lParam);
         }
 
+
+        HookProc hookProc;
         IntPtr hhook;
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            hookProc = new HookProc(LowLevelKeyboardProc);
             IntPtr hh = GetModuleHandle(null);
-            hhook = SetWindowsHookEx(WH_KEYBOARD_LL, LowLevelKeyboardProc, hh, 0);
+            hhook = SetWindowsHookEx(WH_KEYBOARD_LL, hookProc, hh, 0);
+
+            window1.Show();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -68,11 +86,6 @@ namespace ASSWinFormsApp1
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             Application.Exit();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 
