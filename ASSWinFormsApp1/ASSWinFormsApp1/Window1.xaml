@@ -5,11 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ASSWinFormsApp1"
         mc:Ignorable="d"
+            WindowStyle="None" ResizeMode="CanMinimize"
         Title="Window1" Height="200" Width="300" Topmost="True" WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
+                <WindowChrome.WindowChrome>
+            <WindowChrome GlassFrameThickness="-1" />
+        </WindowChrome.WindowChrome>
+        <Window.Template>
+            <ControlTemplate TargetType="Window">
+                <Border Padding="64" Background="Transparent">
+                    <Border CornerRadius="16" Background="White">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="64" />
+                        </Border.Effect>
+                        <ContentPresenter ClipToBounds="True" />
+                    </Border>
+                </Border>
+            </ControlTemplate>
+        </Window.Template>
     <Grid>
-        <Grid Background="#FFEFB9B9">
             <Image x:Name="image1"/>
-        </Grid>
 
     </Grid>
 </Window>
