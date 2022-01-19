@@ -20,10 +20,12 @@ namespace ASSWinFormsApp1
             {
                 GC.Collect();
 
+                int hh = (int)((FrameworkElement)this.Content).ActualHeight;
+
                 BitmapImage bitmapImage = new BitmapImage();
                 bitmapImage.BeginInit();
                 bitmapImage.UriSource = new Uri(value);
-                bitmapImage.DecodePixelHeight = (int)this.Height;
+                bitmapImage.DecodePixelHeight = hh;
                 bitmapImage.EndInit();
                 bitmapImage.Freeze();
 

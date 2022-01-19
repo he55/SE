@@ -6,24 +6,23 @@
         xmlns:local="clr-namespace:ASSWinFormsApp1"
         mc:Ignorable="d"
             WindowStyle="None" ResizeMode="CanMinimize"
-        Title="Window1" Height="200" Width="300" Topmost="True" WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
+        Title="Window1" Height="200" Width="300" Topmost="True"  ShowInTaskbar="False">
                 <WindowChrome.WindowChrome>
             <WindowChrome GlassFrameThickness="-1" />
         </WindowChrome.WindowChrome>
         <Window.Template>
             <ControlTemplate TargetType="Window">
-                <Border Padding="64" Background="Transparent">
-                    <Border CornerRadius="16" Background="White">
+                <Border Padding="15" Background="Transparent">
+                    <Border CornerRadius="5" Background="White">
                         <Border.Effect>
-                            <DropShadowEffect BlurRadius="64" />
+                            <DropShadowEffect BlurRadius="15" Opacity="0.6" ShadowDepth="0" />
                         </Border.Effect>
                         <ContentPresenter ClipToBounds="True" />
                     </Border>
                 </Border>
             </ControlTemplate>
         </Window.Template>
-    <Grid>
+    <Grid Margin="5">
             <Image x:Name="image1"/>
-
     </Grid>
 </Window>
