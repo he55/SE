@@ -12,6 +12,7 @@ namespace ASSWinFormsApp1
         public Window1()
         {
             InitializeComponent();
+            setPos();
         }
 
         public string ImagePath
@@ -31,6 +32,13 @@ namespace ASSWinFormsApp1
 
                 image1.Source = bitmapImage;
             }
+        }
+
+        public void setPos()
+        {
+            Rect workArea = SystemParameters.WorkArea;
+            this.Left = workArea.Width - this.Width;
+            this.Top = workArea.Height - this.Height;
         }
     }
 }
