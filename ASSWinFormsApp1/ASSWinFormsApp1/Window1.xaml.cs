@@ -12,7 +12,7 @@ namespace ASSWinFormsApp1
         public Window1()
         {
             InitializeComponent();
-            setPos();
+            setHide();
         }
 
         public string ImagePath
@@ -31,6 +31,9 @@ namespace ASSWinFormsApp1
                 bitmapImage.Freeze();
 
                 image1.Source = bitmapImage;
+
+                this.Opacity = 1;
+                setPos();
             }
         }
 
