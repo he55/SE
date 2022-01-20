@@ -36,20 +36,19 @@ namespace ASSWinFormsApp1
                 time = 6;
                 if (!isShow)
                 {
-                    showImage();
+                    this.Opacity = 1;
+                    setPos();
+                    isShow = true;
+
+                    hideImage();
                 }
             }
         }
 
         bool isShow;
         int time;
-
-        async void showImage()
+        async void hideImage()
         {
-            this.Opacity = 1;
-            setPos();
-            isShow = true;
-
             while (time > 0)
             {
                 time--;
