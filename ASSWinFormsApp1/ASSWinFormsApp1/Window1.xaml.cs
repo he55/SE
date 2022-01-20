@@ -47,5 +47,10 @@ namespace ASSWinFormsApp1
             this.Left = SystemParameters.PrimaryScreenWidth;
             this.Top = SystemParameters.PrimaryScreenHeight;
         }
+
+        private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
     }
 }
