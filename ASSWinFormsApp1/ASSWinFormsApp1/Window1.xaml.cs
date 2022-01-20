@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
@@ -34,6 +35,15 @@ namespace ASSWinFormsApp1
 
                 this.Opacity = 1;
                 setPos();
+
+                Task.Run(async () =>
+                {
+                    await Task.Delay(2000);
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        setHide();
+                    });
+                });
             }
         }
 
