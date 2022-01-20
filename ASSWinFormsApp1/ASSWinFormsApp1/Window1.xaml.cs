@@ -33,17 +33,31 @@ namespace ASSWinFormsApp1
 
                 image1.Source = bitmapImage;
 
-                showImage();
+                time = 6;
+                if (!isShow)
+                {
+                    showImage();
+                }
             }
         }
+
+        bool isShow;
+        int time;
 
         async void showImage()
         {
             this.Opacity = 1;
             setPos();
+            isShow = true;
 
-            await Task.Delay(2000);
+            while (time > 0)
+            {
+                time--;
+                await Task.Delay(1000);
+            }
+
             setHide();
+            isShow = false;
         }
 
         void setPos()
