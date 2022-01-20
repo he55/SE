@@ -33,18 +33,17 @@ namespace ASSWinFormsApp1
 
                 image1.Source = bitmapImage;
 
-                this.Opacity = 1;
-                setPos();
-
-                Task.Run(async () =>
-                {
-                    await Task.Delay(2000);
-                    this.Dispatcher.Invoke(() =>
-                    {
-                        setHide();
-                    });
-                });
+                showImage();
             }
+        }
+
+        async void showImage()
+        {
+            this.Opacity = 1;
+            setPos();
+
+            await Task.Delay(2000);
+            setHide();
         }
 
         void setPos()
