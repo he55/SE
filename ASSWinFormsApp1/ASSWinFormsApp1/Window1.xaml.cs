@@ -34,11 +34,18 @@ namespace ASSWinFormsApp1
             }
         }
 
-        public void setPos()
+        void setPos()
         {
             Rect workArea = SystemParameters.WorkArea;
             this.Left = workArea.Width - this.Width;
             this.Top = workArea.Height - this.Height;
+        }
+
+        void setHide()
+        {
+            this.Opacity = 0;
+            this.Left = SystemParameters.PrimaryScreenWidth;
+            this.Top = SystemParameters.PrimaryScreenHeight;
         }
     }
 }
