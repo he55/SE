@@ -102,12 +102,22 @@ namespace ASSWinFormsApp1
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (hhook != IntPtr.Zero)
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                this.Hide();
+
+                if (settings.FirstRun)
+                {
+                    notifyIcon1.ShowBalloonTip(1000, "", "程序正在后台运行", ToolTipIcon.None);
+                    settings.FirstRun = false;
+                }
+            }
+            else
             {
                 UnhookWindowsHookEx(hhook);
+                Settings.Save();
             }
-
-            Settings.Save();
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
