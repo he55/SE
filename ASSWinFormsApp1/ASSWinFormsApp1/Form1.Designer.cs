@@ -39,6 +39,7 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -78,6 +79,7 @@
             this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(163, 21);
             this.textBox1.TabIndex = 2;
+            this.textBox1.TabStop = false;
             // 
             // button1
             // 
@@ -87,6 +89,7 @@
             this.button1.TabIndex = 3;
             this.button1.Text = "选择";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label2
             // 
@@ -99,16 +102,17 @@
             // 
             // comboBox1
             // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
             "PNG",
             "JPG",
             "BMP"});
-            this.comboBox1.Location = new System.Drawing.Point(70, 65);
+            this.comboBox1.Location = new System.Drawing.Point(83, 65);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(77, 20);
+            this.comboBox1.Size = new System.Drawing.Size(92, 20);
             this.comboBox1.TabIndex = 5;
-            this.comboBox1.Text = "PNG";
+            this.comboBox1.SelectionChangeCommitted += new System.EventHandler(this.comboBox1_SelectionChangeCommitted);
             // 
             // checkBox1
             // 
@@ -119,6 +123,7 @@
             this.checkBox1.TabIndex = 6;
             this.checkBox1.Text = "预览";
             this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.Click += new System.EventHandler(this.checkBox1_Click);
             // 
             // checkBox2
             // 
@@ -129,12 +134,25 @@
             this.checkBox2.TabIndex = 7;
             this.checkBox2.Text = "声音";
             this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.Click += new System.EventHandler(this.checkBox2_Click);
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(24, 110);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(72, 16);
+            this.checkBox3.TabIndex = 8;
+            this.checkBox3.Text = "开机启动";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox3.Click += new System.EventHandler(this.checkBox3_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(280, 146);
+            this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.comboBox1);
@@ -163,5 +181,6 @@
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox checkBox3;
     }
 }

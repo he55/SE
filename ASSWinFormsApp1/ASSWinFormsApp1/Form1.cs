@@ -30,7 +30,7 @@ namespace ASSWinFormsApp1
         public static extern IntPtr GetModuleHandle([Optional] string lpModuleName);
 
 
-        string savePath;
+        Settings settings = Settings.Load();
         Window1 window1 = new Window1();
 
         public Form1()
@@ -38,8 +38,11 @@ namespace ASSWinFormsApp1
             InitializeComponent();
             notifyIcon1.Icon = this.Icon;
 
-            savePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            textBox1.Text = savePath;
+            textBox1.Text = settings.savePath;
+            comboBox1.SelectedIndex = settings.saveExt;
+            checkBox1.Checked = settings.isPre;
+            checkBox2.Checked = settings.isSou;
+            checkBox3.Checked = Helper.CheckStartOnBoot();
         }
 
         void saveImage()
@@ -50,8 +53,21 @@ namespace ASSWinFormsApp1
                 System.Drawing.Image image = Clipboard.GetImage();
                 image.Save(tmp, System.Drawing.Imaging.ImageFormat.Png);
 
-                window1.ImagePath = tmp;
+                if (settings.isSou)
+                {
+                    playSou();
+                }
+
+                if (settings.isPre)
+                {
+                    window1.ImagePath = tmp;
+                }
             }
+        }
+
+        void playSou()
+        {
+
         }
 
         IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, ref KBDLLHOOKSTRUCT lParam)
@@ -85,11 +101,45 @@ namespace ASSWinFormsApp1
             {
                 UnhookWindowsHookEx(hhook);
             }
+
+            Settings.Save();
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+            if(folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            {
+                settings.savePath = textBox1.Text = folderBrowserDialog.SelectedPath;
+            }
+        }
+
+        private void comboBox1_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            settings.saveExt = comboBox1.SelectedIndex;
+        }
+
+        private void checkBox1_Click(object sender, EventArgs e)
+        {
+            settings.isPre = checkBox1.Checked;
+        }
+
+        private void checkBox2_Click(object sender, EventArgs e)
+        {
+            settings.isSou = checkBox2.Checked;
+        }
+
+        private void checkBox3_Click(object sender, EventArgs e)
+        {
+            if (checkBox3.Checked)
+                Helper.SetStartOnBoot();
+            else
+                Helper.RemoveStartOnBoot();
         }
     }
 
