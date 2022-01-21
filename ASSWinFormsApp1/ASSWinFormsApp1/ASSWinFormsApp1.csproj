@@ -7,4 +7,10 @@
     <UseWPF>True</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Update="camerashutter.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Media;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -31,6 +32,7 @@ namespace ASSWinFormsApp1
 
 
         Settings settings = Settings.Load();
+        SoundPlayer soundPlayer;
         Window1 window1 = new Window1();
 
         public Form1()
@@ -43,6 +45,9 @@ namespace ASSWinFormsApp1
             checkBox1.Checked = settings.isPre;
             checkBox2.Checked = settings.isSou;
             checkBox3.Checked = Helper.CheckStartOnBoot();
+
+            soundPlayer = new SoundPlayer();
+            soundPlayer.SoundLocation = "camerashutter.wav";
         }
 
         void saveImage()
@@ -67,7 +72,7 @@ namespace ASSWinFormsApp1
 
         void playSou()
         {
-
+            soundPlayer.Play();
         }
 
         IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, ref KBDLLHOOKSTRUCT lParam)
@@ -113,7 +118,7 @@ namespace ASSWinFormsApp1
         private void button1_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
-            if(folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
                 settings.savePath = textBox1.Text = folderBrowserDialog.SelectedPath;
             }
