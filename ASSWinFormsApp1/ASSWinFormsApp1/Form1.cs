@@ -30,12 +30,16 @@ namespace ASSWinFormsApp1
         public static extern IntPtr GetModuleHandle([Optional] string lpModuleName);
 
 
+        string savePath;
         Window1 window1 = new Window1();
 
         public Form1()
         {
             InitializeComponent();
             notifyIcon1.Icon = this.Icon;
+
+            savePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            textBox1.Text = savePath;
         }
 
         void saveImage()
