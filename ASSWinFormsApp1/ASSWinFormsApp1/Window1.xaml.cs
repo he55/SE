@@ -45,12 +45,15 @@ namespace ASSWinFormsApp1
             }
         }
 
-        bool isShow;
+        public bool isShow;
         int time;
         async void hideImage()
         {
             while (time > 0)
             {
+                if (!isShow)
+                    return;
+
                 time--;
                 await Task.Delay(1000);
             }
@@ -66,7 +69,7 @@ namespace ASSWinFormsApp1
             this.Top = workArea.Height - this.Height;
         }
 
-        void setHide()
+        public void setHide()
         {
             this.Opacity = 0;
             this.Left = SystemParameters.PrimaryScreenWidth;

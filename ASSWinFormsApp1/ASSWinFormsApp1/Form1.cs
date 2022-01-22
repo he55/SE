@@ -33,7 +33,7 @@ namespace ASSWinFormsApp1
 
         Settings settings = Settings.Load();
         SoundPlayer soundPlayer;
-        Window1 window1 = new Window1();
+        Window1 window1;
 
         public Form1()
         {
@@ -97,6 +97,7 @@ namespace ASSWinFormsApp1
             IntPtr hh = GetModuleHandle(null);
             hhook = SetWindowsHookEx(WH_KEYBOARD_LL, hookProc, hh, 0);
 
+            window1 = new Window1();
             window1.Show();
         }
 
@@ -137,6 +138,11 @@ namespace ASSWinFormsApp1
         private void checkBox1_Click(object sender, EventArgs e)
         {
             settings.isPre = checkBox1.Checked;
+            if (!settings.isPre && window1.isShow)
+            {
+                window1.setHide();
+                window1.isShow = false;
+            }
         }
 
         private void checkBox2_Click(object sender, EventArgs e)
