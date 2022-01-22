@@ -47,7 +47,7 @@ namespace ASSWinFormsApp1
             checkBox3.Checked = Helper.CheckStartOnBoot();
 
             soundPlayer = new SoundPlayer();
-            soundPlayer.SoundLocation = "camerashutter.wav";
+            soundPlayer.SoundLocation = "Screenshot.wav";
         }
 
         void saveImage()
