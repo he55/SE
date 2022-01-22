@@ -46,8 +46,8 @@ namespace ASSWinFormsApp1
             checkBox2.Checked = settings.isSou;
             checkBox3.Checked = Helper.CheckStartOnBoot();
 
-            soundPlayer = new SoundPlayer();
-            soundPlayer.SoundLocation = "Screenshot.wav";
+            soundPlayer = new SoundPlayer(Properties.Resources.Screenshot);
+            window1 = new Window1();
         }
 
         void saveImage()
@@ -97,7 +97,6 @@ namespace ASSWinFormsApp1
             IntPtr hh = GetModuleHandle(null);
             hhook = SetWindowsHookEx(WH_KEYBOARD_LL, hookProc, hh, 0);
 
-            window1 = new Window1();
             window1.Show();
         }
 
