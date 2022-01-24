@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Media;
 using System.Runtime.InteropServices;
@@ -56,13 +57,46 @@ namespace ASSWinFormsApp1
         {
             if (Clipboard.ContainsImage())
             {
-                string tmp = Path.GetTempFileName();
+                if (!Directory.Exists(settings.savePath))
+                {
+                    Directory.CreateDirectory(settings.savePath);
+                }
+
+                string name;
+                if (settings.saveName2 == 0)
+                {
+                    name = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+                }
+                else
+                {
+                    name = "22";
+                }
+
+                string ext = "png";
+                ImageFormat imageFormat = ImageFormat.Png;
+                switch (settings.saveExt)
+                {
+                    case 0:
+                        imageFormat = ImageFormat.Png;
+                        ext = "png";
+                        break;
+                    case 1:
+                        imageFormat = ImageFormat.Jpeg;
+                        ext = "jpg";
+                        break;
+                    case 2:
+                        imageFormat = ImageFormat.Bmp;
+                        ext = "bmp";
+                        break;
+                }
+
+                string tmp =Path.Combine(settings.savePath,$"{name}.{ext}");
                 System.Drawing.Image image = Clipboard.GetImage();
-                image.Save(tmp, System.Drawing.Imaging.ImageFormat.Png);
+                image.Save(tmp,imageFormat);
 
                 if (settings.isSou)
                 {
-                    playSou();
+                    soundPlayer.Play();
                 }
 
                 if (settings.isPre)
@@ -70,11 +104,6 @@ namespace ASSWinFormsApp1
                     window1.ImagePath = tmp;
                 }
             }
-        }
-
-        void playSou()
-        {
-            soundPlayer.Play();
         }
 
         IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, ref KBDLLHOOKSTRUCT lParam)
