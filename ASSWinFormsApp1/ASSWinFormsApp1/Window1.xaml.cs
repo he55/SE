@@ -10,6 +10,8 @@ namespace ASSWinFormsApp1
     /// </summary>
     public partial class Window1 : Window
     {
+        public Action openAction;
+
         public Window1()
         {
             InitializeComponent();
@@ -74,6 +76,11 @@ namespace ASSWinFormsApp1
             this.Opacity = 0;
             this.Left = SystemParameters.PrimaryScreenWidth;
             this.Top = SystemParameters.PrimaryScreenHeight;
+        }
+
+        private void Grid_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            openAction?.Invoke();
         }
     }
 }

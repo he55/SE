@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Media;
@@ -51,8 +53,20 @@ namespace ASSWinFormsApp1
 
             soundPlayer = new SoundPlayer(Properties.Resources.Screenshot);
             window1 = new Window1();
+            window1.openAction = OpenEdit;
         }
 
+        void OpenEdit()
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = @"C:\Windows\System32\mspaint.exe",
+                Arguments = tmp,
+                UseShellExecute = true
+            });
+        }
+
+        string tmp;
         void saveImage()
         {
             if (Clipboard.ContainsImage())
@@ -90,9 +104,9 @@ namespace ASSWinFormsApp1
                         break;
                 }
 
-                string tmp =Path.Combine(settings.savePath,$"{name}.{ext}");
-                System.Drawing.Image image = Clipboard.GetImage();
-                image.Save(tmp,imageFormat);
+                tmp = Path.Combine(settings.savePath, $"{name}.{ext}");
+                Image image = Clipboard.GetImage();
+                image.Save(tmp, imageFormat);
 
                 if (settings.isSou)
                 {

@@ -27,7 +27,7 @@
             </Border>
         </ControlTemplate>
     </Window.Template>
-    <Grid Margin="3">
+    <Grid Margin="3" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
         <Image x:Name="image1" />
     </Grid>
 </Window>
