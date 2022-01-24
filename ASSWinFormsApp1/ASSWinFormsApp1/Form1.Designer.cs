@@ -213,17 +213,16 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(136, 60);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(41, 12);
+            this.label4.Size = new System.Drawing.Size(53, 12);
             this.label4.TabIndex = 11;
-            this.label4.Text = "label4";
+            this.label4.Text = "打开方式";
             // 
             // comboBox3
             // 
             this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox3.FormattingEnabled = true;
             this.comboBox3.Items.AddRange(new object[] {
-            "1",
-            "2"});
+            "画图"});
             this.comboBox3.Location = new System.Drawing.Point(138, 81);
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(62, 20);

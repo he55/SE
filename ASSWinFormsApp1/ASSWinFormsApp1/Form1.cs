@@ -61,7 +61,7 @@ namespace ASSWinFormsApp1
             Process.Start(new ProcessStartInfo
             {
                 FileName = @"C:\Windows\System32\mspaint.exe",
-                Arguments = tmp,
+                Arguments = $"\"{tmp}\"",
                 UseShellExecute = true
             });
         }
