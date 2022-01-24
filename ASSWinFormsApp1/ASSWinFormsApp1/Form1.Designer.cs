@@ -219,7 +219,11 @@
             // 
             // comboBox3
             // 
+            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Items.AddRange(new object[] {
+            "1",
+            "2"});
             this.comboBox3.Location = new System.Drawing.Point(138, 81);
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(62, 20);
