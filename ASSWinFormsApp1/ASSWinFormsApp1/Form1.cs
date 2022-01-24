@@ -43,6 +43,7 @@ namespace ASSWinFormsApp1
             textBox1.Text = settings.savePath;
             comboBox1.SelectedIndex = settings.saveExt;
             comboBox2.SelectedIndex = settings.saveName2;
+            comboBox3.SelectedIndex = settings.openExe;
             checkBox1.Checked = settings.isPre;
             checkBox2.Checked = settings.isSou;
             checkBox3.Checked = Helper.CheckStartOnBoot();
@@ -138,6 +139,11 @@ namespace ASSWinFormsApp1
         private void comboBox2_SelectionChangeCommitted(object sender, EventArgs e)
         {
             settings.saveName2 = comboBox2.SelectedIndex;
+        }
+
+        private void comboBox3_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            settings.openExe = comboBox3.SelectedIndex;
         }
 
         private void checkBox1_Click(object sender, EventArgs e)
