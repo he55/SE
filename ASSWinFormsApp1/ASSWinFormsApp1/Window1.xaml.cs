@@ -10,7 +10,7 @@ namespace ASSWinFormsApp1
     /// </summary>
     public partial class Window1 : Window
     {
-        bool isShow;
+        bool isShow = true;
         int time;
         public Action openAction;
 

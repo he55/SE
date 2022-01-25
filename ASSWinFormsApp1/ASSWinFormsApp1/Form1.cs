@@ -61,12 +61,15 @@ namespace ASSWinFormsApp1
 
         void OpenEdit()
         {
-            Process.Start(new ProcessStartInfo
+            if (settings.openExe == 0)
             {
-                FileName = @"C:\Windows\System32\mspaint.exe",
-                Arguments = $"\"{tmp}\"",
-                UseShellExecute = true
-            });
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = @"C:\Windows\System32\mspaint.exe",
+                    Arguments = $"\"{tmp}\"",
+                    UseShellExecute = true
+                });
+            }
 
             window1.setHide();
         }
