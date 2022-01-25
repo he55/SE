@@ -34,9 +34,12 @@ namespace ASSWinFormsApp1
         public static extern IntPtr GetModuleHandle([Optional] string lpModuleName);
 
 
+        HookProc hookProc;
+        IntPtr hhook;
         Settings settings = Settings.Load();
         SoundPlayer soundPlayer;
         Window1 window1;
+        string tmp;
 
         public Form1()
         {
@@ -68,7 +71,6 @@ namespace ASSWinFormsApp1
             window1.setHide();
         }
 
-        string tmp;
         void saveImage()
         {
             if (Clipboard.ContainsImage())
@@ -134,9 +136,6 @@ namespace ASSWinFormsApp1
             return CallNextHookEx(hhook, nCode, wParam, ref lParam);
         }
 
-
-        HookProc hookProc;
-        IntPtr hhook;
 
         private void Form1_Load(object sender, EventArgs e)
         {

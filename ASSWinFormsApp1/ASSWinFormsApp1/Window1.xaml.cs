@@ -10,6 +10,8 @@ namespace ASSWinFormsApp1
     /// </summary>
     public partial class Window1 : Window
     {
+        bool isShow;
+        int time;
         public Action openAction;
 
         public Window1()
@@ -35,7 +37,7 @@ namespace ASSWinFormsApp1
 
                 image1.Source = bitmapImage;
 
-                time = 6;
+                time = 5;
                 if (!isShow)
                 {
                     this.Opacity = 1;
@@ -51,8 +53,6 @@ namespace ASSWinFormsApp1
             }
         }
 
-        bool isShow;
-        int time;
         async void hideImage()
         {
             while (time > 0)
