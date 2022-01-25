@@ -194,7 +194,7 @@ namespace ASSWinFormsApp1
         private void checkBox1_Click(object sender, EventArgs e)
         {
             settings.isPre = checkBox1.Checked;
-            if (!settings.isPre && window1.isShow)
+            if (!settings.isPre)
             {
                 window1.setHide();
             }
