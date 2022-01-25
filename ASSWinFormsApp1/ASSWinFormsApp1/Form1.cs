@@ -64,6 +64,8 @@ namespace ASSWinFormsApp1
                 Arguments = $"\"{tmp}\"",
                 UseShellExecute = true
             });
+
+            window1.setHide();
         }
 
         string tmp;
@@ -195,7 +197,6 @@ namespace ASSWinFormsApp1
             if (!settings.isPre && window1.isShow)
             {
                 window1.setHide();
-                window1.isShow = false;
             }
         }
 

@@ -39,7 +39,11 @@ namespace ASSWinFormsApp1
                 if (!isShow)
                 {
                     this.Opacity = 1;
-                    setPos();
+
+                    Rect workArea = SystemParameters.WorkArea;
+                    this.Left = workArea.Width - this.Width;
+                    this.Top = workArea.Height - this.Height;
+
                     isShow = true;
 
                     hideImage();
@@ -61,14 +65,6 @@ namespace ASSWinFormsApp1
             }
 
             setHide();
-            isShow = false;
-        }
-
-        void setPos()
-        {
-            Rect workArea = SystemParameters.WorkArea;
-            this.Left = workArea.Width - this.Width;
-            this.Top = workArea.Height - this.Height;
         }
 
         public void setHide()
@@ -76,6 +72,8 @@ namespace ASSWinFormsApp1
             this.Opacity = 0;
             this.Left = SystemParameters.PrimaryScreenWidth;
             this.Top = SystemParameters.PrimaryScreenHeight;
+
+            isShow = false;
         }
 
         private void Grid_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
