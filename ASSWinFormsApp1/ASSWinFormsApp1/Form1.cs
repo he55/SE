@@ -40,6 +40,7 @@ namespace ASSWinFormsApp1
         SoundPlayer soundPlayer;
         Window1 window1;
         string tmp;
+        int idx = 1;
 
         public Form1()
         {
@@ -83,16 +84,6 @@ namespace ASSWinFormsApp1
                     Directory.CreateDirectory(settings.savePath);
                 }
 
-                string name;
-                if (settings.saveName == 0)
-                {
-                    name = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-                }
-                else
-                {
-                    name = "22";
-                }
-
                 string ext = "png";
                 ImageFormat imageFormat = ImageFormat.Png;
                 switch (settings.saveExt)
@@ -111,7 +102,20 @@ namespace ASSWinFormsApp1
                         break;
                 }
 
-                tmp = Path.Combine(settings.savePath, $"{name}.{ext}");
+                if (settings.saveName == 0)
+                {
+                    string name = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+                    tmp = Path.Combine(settings.savePath, $"{name}.{ext}");
+                }
+                else
+                {
+                    do
+                    {
+                        tmp = Path.Combine(settings.savePath, $"{idx}.{ext}");
+                        idx++;
+                    } while (File.Exists(tmp));
+                }
+
                 Image image = Clipboard.GetImage();
                 image.Save(tmp, imageFormat);
 
