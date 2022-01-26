@@ -38,11 +38,6 @@ namespace ASSWinFormsApp1
             return Path.Combine(s_appPath, subPath);
         }
 
-        public static string ExtPath()
-        {
-            return GetPathForAppFolder("Ext");
-        }
-
         public static bool CheckStartOnBoot()
         {
             RegistryKey startupKey = Registry.CurrentUser.OpenSubKey(registryStartupLocation);

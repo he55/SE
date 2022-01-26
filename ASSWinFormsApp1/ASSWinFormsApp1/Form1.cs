@@ -48,7 +48,7 @@ namespace ASSWinFormsApp1
 
             textBox1.Text = settings.savePath;
             comboBox1.SelectedIndex = settings.saveExt;
-            comboBox2.SelectedIndex = settings.saveName2;
+            comboBox2.SelectedIndex = settings.saveName;
             comboBox3.SelectedIndex = settings.openExe;
             checkBox1.Checked = settings.isPre;
             checkBox2.Checked = settings.isSou;
@@ -84,7 +84,7 @@ namespace ASSWinFormsApp1
                 }
 
                 string name;
-                if (settings.saveName2 == 0)
+                if (settings.saveName == 0)
                 {
                     name = DateTime.Now.ToString("yyyyMMdd_HHmmss");
                 }
@@ -185,7 +185,7 @@ namespace ASSWinFormsApp1
 
         private void comboBox2_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            settings.saveName2 = comboBox2.SelectedIndex;
+            settings.saveName = comboBox2.SelectedIndex;
         }
 
         private void comboBox3_SelectionChangeCommitted(object sender, EventArgs e)

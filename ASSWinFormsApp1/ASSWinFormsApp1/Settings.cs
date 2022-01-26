@@ -13,7 +13,7 @@ namespace ASSWinFormsApp1
 
         public bool FirstRun { get; set; } = true;
         public string savePath { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-        public int saveName2 { get; set; }
+        public int saveName { get; set; }
         public int saveExt { get; set; }
         public int openExe { get; set; }
         public bool isPre { get; set; } = true;
