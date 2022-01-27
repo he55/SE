@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace ASSWinFormsApp1
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         const int HC_ACTION = 0;
         const int WH_KEYBOARD_LL = 13;
@@ -42,7 +42,7 @@ namespace ASSWinFormsApp1
         string tmp;
         int idx = 1;
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
             notifyIcon1.Icon = this.Icon;
