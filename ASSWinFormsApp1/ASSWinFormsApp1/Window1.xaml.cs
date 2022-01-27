@@ -17,7 +17,7 @@ namespace ASSWinFormsApp1
             setHide();
         }
 
-        public void SetImagePath(string value)
+        public void SetImagePath(string path)
         {
             GC.Collect();
 
@@ -26,7 +26,7 @@ namespace ASSWinFormsApp1
             BitmapImage bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();
             bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-            bitmapImage.UriSource = new Uri(value);
+            bitmapImage.UriSource = new Uri(path);
             bitmapImage.DecodePixelHeight = height;
             bitmapImage.EndInit();
             bitmapImage.Freeze();
