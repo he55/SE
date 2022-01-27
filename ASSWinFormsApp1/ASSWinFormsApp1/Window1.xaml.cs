@@ -5,13 +5,13 @@ using System.Windows.Media.Imaging;
 
 namespace ASSWinFormsApp1
 {
-    public partial class Window1 : Window
+    public partial class PreviewWindow : Window
     {
         bool isShow = true;
         int time;
         public Action openAction;
 
-        public Window1()
+        public PreviewWindow()
         {
             InitializeComponent();
             setHide();

@@ -38,7 +38,7 @@ namespace ASSWinFormsApp1
         IntPtr hhook;
         Settings settings = Settings.Load();
         SoundPlayer soundPlayer;
-        Window1 window1;
+        PreviewWindow window1;
         string tmp;
         int idx = 1;
 
@@ -56,7 +56,7 @@ namespace ASSWinFormsApp1
             checkBox3.Checked = Helper.CheckStartOnBoot();
 
             soundPlayer = new SoundPlayer(Properties.Resources.Screenshot);
-            window1 = new Window1();
+            window1 = new PreviewWindow();
             window1.openAction = OpenEdit;
         }
 
