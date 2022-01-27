@@ -5,9 +5,6 @@ using System.Windows.Media.Imaging;
 
 namespace ASSWinFormsApp1
 {
-    /// <summary>
-    /// Interaction logic for Window1.xaml
-    /// </summary>
     public partial class Window1 : Window
     {
         bool isShow = true;
@@ -26,12 +23,13 @@ namespace ASSWinFormsApp1
             {
                 GC.Collect();
 
-                int hh = (int)((FrameworkElement)this.Content).ActualHeight;
+                int height = (int)((FrameworkElement)this.Content).ActualHeight;
 
                 BitmapImage bitmapImage = new BitmapImage();
                 bitmapImage.BeginInit();
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
                 bitmapImage.UriSource = new Uri(value);
-                bitmapImage.DecodePixelHeight = hh;
+                bitmapImage.DecodePixelHeight = height;
                 bitmapImage.EndInit();
                 bitmapImage.Freeze();
 
