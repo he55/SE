@@ -229,7 +229,7 @@
             this.comboBox3.TabIndex = 12;
             this.comboBox3.SelectionChangeCommitted += new System.EventHandler(this.comboBox3_SelectionChangeCommitted);
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -248,7 +248,7 @@
             this.Controls.Add(this.label1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ASSWinFormsApp1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
