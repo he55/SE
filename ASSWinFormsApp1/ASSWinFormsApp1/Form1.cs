@@ -126,7 +126,7 @@ namespace ASSWinFormsApp1
 
                 if (settings.isPre)
                 {
-                    window1.ImagePath = tmp;
+                    window1.SetImagePath(tmp);
                 }
             }
         }

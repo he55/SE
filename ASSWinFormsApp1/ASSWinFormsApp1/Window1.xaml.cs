@@ -17,37 +17,34 @@ namespace ASSWinFormsApp1
             setHide();
         }
 
-        public string ImagePath
+        public void SetImagePath(string value)
         {
-            set
+            GC.Collect();
+
+            int height = (int)((FrameworkElement)this.Content).ActualHeight;
+
+            BitmapImage bitmapImage = new BitmapImage();
+            bitmapImage.BeginInit();
+            bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+            bitmapImage.UriSource = new Uri(value);
+            bitmapImage.DecodePixelHeight = height;
+            bitmapImage.EndInit();
+            bitmapImage.Freeze();
+
+            image1.Source = bitmapImage;
+
+            time = 5;
+            if (!isShow)
             {
-                GC.Collect();
+                this.Opacity = 1;
 
-                int height = (int)((FrameworkElement)this.Content).ActualHeight;
+                Rect workArea = SystemParameters.WorkArea;
+                this.Left = workArea.Width - this.Width;
+                this.Top = workArea.Height - this.Height;
 
-                BitmapImage bitmapImage = new BitmapImage();
-                bitmapImage.BeginInit();
-                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                bitmapImage.UriSource = new Uri(value);
-                bitmapImage.DecodePixelHeight = height;
-                bitmapImage.EndInit();
-                bitmapImage.Freeze();
+                isShow = true;
 
-                image1.Source = bitmapImage;
-
-                time = 5;
-                if (!isShow)
-                {
-                    this.Opacity = 1;
-
-                    Rect workArea = SystemParameters.WorkArea;
-                    this.Left = workArea.Width - this.Width;
-                    this.Top = workArea.Height - this.Height;
-
-                    isShow = true;
-
-                    hideImage();
-                }
+                hideImage();
             }
         }
 
