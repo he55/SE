@@ -14,10 +14,10 @@ namespace ASSWinFormsApp1
         public PreviewWindow()
         {
             InitializeComponent();
-            setHide();
+            SetHide();
         }
 
-        public void SetImagePath(string path)
+        public void SetImage(string path)
         {
             GC.Collect();
 
@@ -42,11 +42,11 @@ namespace ASSWinFormsApp1
                 this.Top = workArea.Height - this.Height;
 
                 isShow = true;
-                hideImage();
+                DelayHide();
             }
         }
 
-        public void setHide()
+        public void SetHide()
         {
             if (isShow)
             {
@@ -58,7 +58,7 @@ namespace ASSWinFormsApp1
             }
         }
 
-        async void hideImage()
+        async void DelayHide()
         {
             while (time > 0)
             {
@@ -69,7 +69,7 @@ namespace ASSWinFormsApp1
                 await Task.Delay(1000);
             }
 
-            setHide();
+            SetHide();
         }
 
         private void Grid_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

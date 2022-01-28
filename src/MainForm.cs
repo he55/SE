@@ -34,13 +34,13 @@ namespace ASSWinFormsApp1
 
             soundPlayer = new SoundPlayer(Properties.Resources.Screenshot);
             window1 = new PreviewWindow();
-            window1.openAction = OpenEdit;
+            window1.openAction = OpenApp;
         }
 
 
         #region MyRegion
 
-        void OpenEdit()
+        void OpenApp()
         {
             if (settings.openApp == 0)
             {
@@ -52,10 +52,10 @@ namespace ASSWinFormsApp1
                 });
             }
 
-            window1.setHide();
+            window1.SetHide();
         }
 
-        void saveImage()
+        void SaveImage()
         {
             if (Clipboard.ContainsImage())
             {
@@ -106,7 +106,7 @@ namespace ASSWinFormsApp1
 
                 if (settings.isShowPreview)
                 {
-                    window1.SetImagePath(tmp);
+                    window1.SetImage(tmp);
                 }
             }
         }
@@ -117,7 +117,7 @@ namespace ASSWinFormsApp1
             {
                 if (((int)wParam == WM_KEYUP || (int)wParam == WM_SYSKEYUP) && lParam.vkCode == VK_SNAPSHOT)
                 {
-                    saveImage();
+                    SaveImage();
                 }
             }
             return CallNextHookEx(hhook, nCode, wParam, ref lParam);
@@ -191,7 +191,7 @@ namespace ASSWinFormsApp1
             settings.isShowPreview = checkBox1.Checked;
             if (!settings.isShowPreview)
             {
-                window1.setHide();
+                window1.SetHide();
             }
         }
 
