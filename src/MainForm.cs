@@ -11,29 +11,6 @@ namespace ASSWinFormsApp1
 {
     public partial class MainForm : Form
     {
-        const int HC_ACTION = 0;
-        const int WH_KEYBOARD_LL = 13;
-        const int WM_KEYUP = 0x0101;
-        const int WM_SYSKEYUP = 0x0105;
-        const int VK_SNAPSHOT = 0x2C;
-
-        [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr HookProc(int nCode, IntPtr wParam, ref KBDLLHOOKSTRUCT lParam);
-
-        [DllImport("User32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        public static extern IntPtr SetWindowsHookEx(int idHook, HookProc lpfn, IntPtr hmod, int dwThreadId);
-
-        [DllImport("User32.dll", SetLastError = true, ExactSpelling = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool UnhookWindowsHookEx(IntPtr hhk);
-
-        [DllImport("User32.dll", SetLastError = false, ExactSpelling = true)]
-        public static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, ref KBDLLHOOKSTRUCT lParam);
-
-        [DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        public static extern IntPtr GetModuleHandle([Optional] string lpModuleName);
-
-
         HookProc hookProc;
         IntPtr hhook;
         Settings settings = Settings.Load();
@@ -59,6 +36,9 @@ namespace ASSWinFormsApp1
             window1 = new PreviewWindow();
             window1.openAction = OpenEdit;
         }
+
+
+        #region MyRegion
 
         void OpenEdit()
         {
@@ -143,6 +123,10 @@ namespace ASSWinFormsApp1
             return CallNextHookEx(hhook, nCode, wParam, ref lParam);
         }
 
+        #endregion
+
+
+        #region MyRegion
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -172,6 +156,11 @@ namespace ASSWinFormsApp1
                 Settings.Save();
             }
         }
+
+        #endregion
+
+
+        #region MyRegion
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -219,6 +208,11 @@ namespace ASSWinFormsApp1
                 Helper.RemoveStartOnBoot();
         }
 
+        #endregion
+
+
+        #region MyRegion
+
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             this.Show();
@@ -238,14 +232,44 @@ namespace ASSWinFormsApp1
         {
             Application.Exit();
         }
-    }
 
-    public struct KBDLLHOOKSTRUCT
-    {
-        public uint vkCode;
-        public uint scanCode;
-        public uint flags;
-        public uint time;
-        public UIntPtr dwExtraInfo;
+        #endregion
+
+
+        #region MyRegion
+
+        public struct KBDLLHOOKSTRUCT
+        {
+            public uint vkCode;
+            public uint scanCode;
+            public uint flags;
+            public uint time;
+            public UIntPtr dwExtraInfo;
+        }
+
+
+        const int HC_ACTION = 0;
+        const int WH_KEYBOARD_LL = 13;
+        const int WM_KEYUP = 0x0101;
+        const int WM_SYSKEYUP = 0x0105;
+        const int VK_SNAPSHOT = 0x2C;
+
+        [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+        public delegate IntPtr HookProc(int nCode, IntPtr wParam, ref KBDLLHOOKSTRUCT lParam);
+
+        [DllImport("User32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern IntPtr SetWindowsHookEx(int idHook, HookProc lpfn, IntPtr hmod, int dwThreadId);
+
+        [DllImport("User32.dll", SetLastError = true, ExactSpelling = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool UnhookWindowsHookEx(IntPtr hhk);
+
+        [DllImport("User32.dll", SetLastError = false, ExactSpelling = true)]
+        public static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, ref KBDLLHOOKSTRUCT lParam);
+
+        [DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern IntPtr GetModuleHandle([Optional] string lpModuleName);
+
+        #endregion
     }
 }
