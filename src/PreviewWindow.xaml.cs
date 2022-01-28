@@ -7,8 +7,8 @@ namespace ASSWinFormsApp1
 {
     public partial class PreviewWindow : Window
     {
-        bool isShow = true;
-        int delaySeconds;
+        bool _isShow = true;
+        int _delaySeconds;
         public Action OpenImageAction;
 
         public PreviewWindow()
@@ -33,39 +33,39 @@ namespace ASSWinFormsApp1
 
             image1.Source = bitmapImage;
 
-            delaySeconds = 5;
-            if (!isShow)
+            _delaySeconds = 5;
+            if (!_isShow)
             {
                 this.Opacity = 1;
                 Rect workArea = SystemParameters.WorkArea;
                 this.Left = workArea.Width - this.Width;
                 this.Top = workArea.Height - this.Height;
 
-                isShow = true;
+                _isShow = true;
                 DelayHide();
             }
         }
 
         public void SetHide()
         {
-            if (isShow)
+            if (_isShow)
             {
                 this.Opacity = 0;
                 this.Left = SystemParameters.PrimaryScreenWidth;
                 this.Top = SystemParameters.PrimaryScreenHeight;
 
-                isShow = false;
+                _isShow = false;
             }
         }
 
         async void DelayHide()
         {
-            while (delaySeconds > 0)
+            while (_delaySeconds > 0)
             {
-                if (!isShow)
+                if (!_isShow)
                     return;
 
-                delaySeconds--;
+                _delaySeconds--;
                 await Task.Delay(1000);
             }
 

@@ -11,13 +11,13 @@ namespace ASSWinFormsApp1
 {
     public partial class MainForm : Form
     {
-        HookProc hookProc;
-        IntPtr hhook;
+        HookProc _hookProc;
+        IntPtr _hhook;
         Settings settings = Settings.Load();
         SoundPlayer soundPlayer;
-        PreviewWindow window1;
-        string saveFilePath;
-        int nameIndex = 1;
+        PreviewWindow window;
+        string _saveFilePath;
+        int _nameIndex = 1;
 
         public MainForm()
         {
@@ -33,8 +33,8 @@ namespace ASSWinFormsApp1
             checkBox3.Checked = Helper.CheckStartOnBoot();
 
             soundPlayer = new SoundPlayer(Properties.Resources.Screenshot);
-            window1 = new PreviewWindow();
-            window1.OpenImageAction = OpenImage;
+            window = new PreviewWindow();
+            window.OpenImageAction = OpenImage;
         }
 
 
@@ -47,12 +47,12 @@ namespace ASSWinFormsApp1
                 Process.Start(new ProcessStartInfo
                 {
                     FileName = @"C:\Windows\System32\mspaint.exe",
-                    Arguments = $"\"{saveFilePath}\"",
+                    Arguments = $"\"{_saveFilePath}\"",
                     UseShellExecute = true
                 });
             }
 
-            window1.SetHide();
+            window.SetHide();
         }
 
         void SaveImage()
@@ -85,19 +85,19 @@ namespace ASSWinFormsApp1
                 if (settings.SaveName == 0)
                 {
                     string name = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-                    saveFilePath = Path.Combine(settings.SavePath, $"{name}.{ext}");
+                    _saveFilePath = Path.Combine(settings.SavePath, $"{name}.{ext}");
                 }
                 else
                 {
                     do
                     {
-                        saveFilePath = Path.Combine(settings.SavePath, $"{nameIndex}.{ext}");
-                        nameIndex++;
-                    } while (File.Exists(saveFilePath));
+                        _saveFilePath = Path.Combine(settings.SavePath, $"{_nameIndex}.{ext}");
+                        _nameIndex++;
+                    } while (File.Exists(_saveFilePath));
                 }
 
                 Image image = Clipboard.GetImage();
-                image.Save(saveFilePath, imageFormat);
+                image.Save(_saveFilePath, imageFormat);
 
                 if (settings.IsPlaySound)
                 {
@@ -106,7 +106,7 @@ namespace ASSWinFormsApp1
 
                 if (settings.IsShowPreview)
                 {
-                    window1.SetImage(saveFilePath);
+                    window.SetImage(_saveFilePath);
                 }
             }
         }
@@ -120,7 +120,7 @@ namespace ASSWinFormsApp1
                     SaveImage();
                 }
             }
-            return CallNextHookEx(hhook, nCode, wParam, ref lParam);
+            return CallNextHookEx(_hhook, nCode, wParam, ref lParam);
         }
 
         #endregion
@@ -130,11 +130,11 @@ namespace ASSWinFormsApp1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            hookProc = new HookProc(LowLevelKeyboardProc);
+            _hookProc = new HookProc(LowLevelKeyboardProc);
             IntPtr hh = GetModuleHandle(null);
-            hhook = SetWindowsHookEx(WH_KEYBOARD_LL, hookProc, hh, 0);
+            _hhook = SetWindowsHookEx(WH_KEYBOARD_LL, _hookProc, hh, 0);
 
-            window1.Show();
+            window.Show();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -152,7 +152,7 @@ namespace ASSWinFormsApp1
             }
             else
             {
-                UnhookWindowsHookEx(hhook);
+                UnhookWindowsHookEx(_hhook);
                 Settings.Save();
             }
         }
@@ -186,7 +186,7 @@ namespace ASSWinFormsApp1
             settings.IsShowPreview = checkBox1.Checked;
             if (!settings.IsShowPreview)
             {
-                window1.SetHide();
+                window.SetHide();
             }
         }
 
