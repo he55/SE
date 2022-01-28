@@ -13,9 +13,9 @@ namespace ASSWinFormsApp1
     {
         HookProc _hookProc;
         IntPtr _hhook;
-        Settings settings = Settings.Load();
-        SoundPlayer soundPlayer;
-        PreviewWindow window;
+        Settings _settings = Settings.Load();
+        SoundPlayer _soundPlayer;
+        PreviewWindow _previewWindow;
         string _saveFilePath;
         int _nameIndex = 1;
 
@@ -24,25 +24,25 @@ namespace ASSWinFormsApp1
             InitializeComponent();
             notifyIcon1.Icon = this.Icon;
 
-            textBox1.Text = settings.SavePath;
-            comboBox1.SelectedIndex = settings.SaveExtension;
-            comboBox2.SelectedIndex = settings.SaveName;
-            comboBox3.SelectedIndex = settings.OpenApp;
-            checkBox1.Checked = settings.IsShowPreview;
-            checkBox2.Checked = settings.IsPlaySound;
+            textBox1.Text = _settings.SavePath;
+            comboBox1.SelectedIndex = _settings.SaveExtension;
+            comboBox2.SelectedIndex = _settings.SaveName;
+            comboBox3.SelectedIndex = _settings.OpenApp;
+            checkBox1.Checked = _settings.IsShowPreview;
+            checkBox2.Checked = _settings.IsPlaySound;
             checkBox3.Checked = Helper.CheckStartOnBoot();
 
-            soundPlayer = new SoundPlayer(Properties.Resources.Screenshot);
-            window = new PreviewWindow();
-            window.OpenImageAction = OpenImage;
+            _soundPlayer = new SoundPlayer(Properties.Resources.Screenshot);
+            _previewWindow = new PreviewWindow();
+            _previewWindow.OpenImageAction = OpenImage;
         }
 
 
-        #region MyRegion
+        #region 私有方法
 
         void OpenImage()
         {
-            if (settings.OpenApp == 0)
+            if (_settings.OpenApp == 0)
             {
                 Process.Start(new ProcessStartInfo
                 {
@@ -52,21 +52,21 @@ namespace ASSWinFormsApp1
                 });
             }
 
-            window.SetHide();
+            _previewWindow.SetHide();
         }
 
         void SaveImage()
         {
             if (Clipboard.ContainsImage())
             {
-                if (!Directory.Exists(settings.SavePath))
+                if (!Directory.Exists(_settings.SavePath))
                 {
-                    Directory.CreateDirectory(settings.SavePath);
+                    Directory.CreateDirectory(_settings.SavePath);
                 }
 
                 string ext = "png";
                 ImageFormat imageFormat = ImageFormat.Png;
-                switch (settings.SaveExtension)
+                switch (_settings.SaveExtension)
                 {
                     case 0:
                         imageFormat = ImageFormat.Png;
@@ -82,16 +82,16 @@ namespace ASSWinFormsApp1
                         break;
                 }
 
-                if (settings.SaveName == 0)
+                if (_settings.SaveName == 0)
                 {
                     string name = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-                    _saveFilePath = Path.Combine(settings.SavePath, $"{name}.{ext}");
+                    _saveFilePath = Path.Combine(_settings.SavePath, $"{name}.{ext}");
                 }
                 else
                 {
                     do
                     {
-                        _saveFilePath = Path.Combine(settings.SavePath, $"{_nameIndex}.{ext}");
+                        _saveFilePath = Path.Combine(_settings.SavePath, $"{_nameIndex}.{ext}");
                         _nameIndex++;
                     } while (File.Exists(_saveFilePath));
                 }
@@ -99,14 +99,14 @@ namespace ASSWinFormsApp1
                 Image image = Clipboard.GetImage();
                 image.Save(_saveFilePath, imageFormat);
 
-                if (settings.IsPlaySound)
+                if (_settings.IsPlaySound)
                 {
-                    soundPlayer.Play();
+                    _soundPlayer.Play();
                 }
 
-                if (settings.IsShowPreview)
+                if (_settings.IsShowPreview)
                 {
-                    window.SetImage(_saveFilePath);
+                    _previewWindow.SetImage(_saveFilePath);
                 }
             }
         }
@@ -126,7 +126,7 @@ namespace ASSWinFormsApp1
         #endregion
 
 
-        #region MyRegion
+        #region 控件事件
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -134,7 +134,7 @@ namespace ASSWinFormsApp1
             IntPtr hh = GetModuleHandle(null);
             _hhook = SetWindowsHookEx(WH_KEYBOARD_LL, _hookProc, hh, 0);
 
-            window.Show();
+            _previewWindow.Show();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -144,10 +144,10 @@ namespace ASSWinFormsApp1
                 e.Cancel = true;
                 this.Hide();
 
-                if (settings.IsFirstRun)
+                if (_settings.IsFirstRun)
                 {
                     notifyIcon1.ShowBalloonTip(1000, "", "程序正在后台运行", ToolTipIcon.None);
-                    settings.IsFirstRun = false;
+                    _settings.IsFirstRun = false;
                 }
             }
             else
@@ -162,37 +162,37 @@ namespace ASSWinFormsApp1
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
-                settings.SavePath = textBox1.Text = folderBrowserDialog.SelectedPath;
+                _settings.SavePath = textBox1.Text = folderBrowserDialog.SelectedPath;
             }
         }
 
         private void comboBox1_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            settings.SaveExtension = comboBox1.SelectedIndex;
+            _settings.SaveExtension = comboBox1.SelectedIndex;
         }
 
         private void comboBox2_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            settings.SaveName = comboBox2.SelectedIndex;
+            _settings.SaveName = comboBox2.SelectedIndex;
         }
 
         private void comboBox3_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            settings.OpenApp = comboBox3.SelectedIndex;
+            _settings.OpenApp = comboBox3.SelectedIndex;
         }
 
         private void checkBox1_Click(object sender, EventArgs e)
         {
-            settings.IsShowPreview = checkBox1.Checked;
-            if (!settings.IsShowPreview)
+            _settings.IsShowPreview = checkBox1.Checked;
+            if (!_settings.IsShowPreview)
             {
-                window.SetHide();
+                _previewWindow.SetHide();
             }
         }
 
         private void checkBox2_Click(object sender, EventArgs e)
         {
-            settings.IsPlaySound = checkBox2.Checked;
+            _settings.IsPlaySound = checkBox2.Checked;
         }
 
         private void checkBox3_Click(object sender, EventArgs e)
@@ -211,7 +211,7 @@ namespace ASSWinFormsApp1
         #endregion
 
 
-        #region MyRegion
+        #region 菜单事件
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
@@ -231,7 +231,7 @@ namespace ASSWinFormsApp1
         #endregion
 
 
-        #region MyRegion
+        #region PInvoke
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
         public struct KBDLLHOOKSTRUCT
