@@ -238,6 +238,7 @@ namespace ASSWinFormsApp1
 
         #region MyRegion
 
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
         public struct KBDLLHOOKSTRUCT
         {
             public uint vkCode;
