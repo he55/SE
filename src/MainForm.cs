@@ -48,11 +48,11 @@ namespace ASSWinFormsApp1
             notifyIcon1.Icon = this.Icon;
 
             textBox1.Text = settings.savePath;
-            comboBox1.SelectedIndex = settings.saveExt;
+            comboBox1.SelectedIndex = settings.saveExtension;
             comboBox2.SelectedIndex = settings.saveName;
-            comboBox3.SelectedIndex = settings.openExe;
-            checkBox1.Checked = settings.isPre;
-            checkBox2.Checked = settings.isSou;
+            comboBox3.SelectedIndex = settings.openApp;
+            checkBox1.Checked = settings.isShowPreview;
+            checkBox2.Checked = settings.isPlaySound;
             checkBox3.Checked = Helper.CheckStartOnBoot();
 
             soundPlayer = new SoundPlayer(Properties.Resources.Screenshot);
@@ -62,7 +62,7 @@ namespace ASSWinFormsApp1
 
         void OpenEdit()
         {
-            if (settings.openExe == 0)
+            if (settings.openApp == 0)
             {
                 Process.Start(new ProcessStartInfo
                 {
@@ -86,7 +86,7 @@ namespace ASSWinFormsApp1
 
                 string ext = "png";
                 ImageFormat imageFormat = ImageFormat.Png;
-                switch (settings.saveExt)
+                switch (settings.saveExtension)
                 {
                     case 0:
                         imageFormat = ImageFormat.Png;
@@ -119,12 +119,12 @@ namespace ASSWinFormsApp1
                 Image image = Clipboard.GetImage();
                 image.Save(tmp, imageFormat);
 
-                if (settings.isSou)
+                if (settings.isPlaySound)
                 {
                     soundPlayer.Play();
                 }
 
-                if (settings.isPre)
+                if (settings.isShowPreview)
                 {
                     window1.SetImagePath(tmp);
                 }
@@ -160,10 +160,10 @@ namespace ASSWinFormsApp1
                 e.Cancel = true;
                 this.Hide();
 
-                if (settings.FirstRun)
+                if (settings.isFirstRun)
                 {
                     notifyIcon1.ShowBalloonTip(1000, "", "程序正在后台运行", ToolTipIcon.None);
-                    settings.FirstRun = false;
+                    settings.isFirstRun = false;
                 }
             }
             else
@@ -184,7 +184,7 @@ namespace ASSWinFormsApp1
 
         private void comboBox1_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            settings.saveExt = comboBox1.SelectedIndex;
+            settings.saveExtension = comboBox1.SelectedIndex;
         }
 
         private void comboBox2_SelectionChangeCommitted(object sender, EventArgs e)
@@ -194,13 +194,13 @@ namespace ASSWinFormsApp1
 
         private void comboBox3_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            settings.openExe = comboBox3.SelectedIndex;
+            settings.openApp = comboBox3.SelectedIndex;
         }
 
         private void checkBox1_Click(object sender, EventArgs e)
         {
-            settings.isPre = checkBox1.Checked;
-            if (!settings.isPre)
+            settings.isShowPreview = checkBox1.Checked;
+            if (!settings.isShowPreview)
             {
                 window1.setHide();
             }
@@ -208,7 +208,7 @@ namespace ASSWinFormsApp1
 
         private void checkBox2_Click(object sender, EventArgs e)
         {
-            settings.isSou = checkBox2.Checked;
+            settings.isPlaySound = checkBox2.Checked;
         }
 
         private void checkBox3_Click(object sender, EventArgs e)
