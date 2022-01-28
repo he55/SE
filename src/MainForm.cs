@@ -16,38 +16,38 @@ namespace ASSWinFormsApp1
         Settings settings = Settings.Load();
         SoundPlayer soundPlayer;
         PreviewWindow window1;
-        string tmp;
-        int idx = 1;
+        string saveFilePath;
+        int nameIndex = 1;
 
         public MainForm()
         {
             InitializeComponent();
             notifyIcon1.Icon = this.Icon;
 
-            textBox1.Text = settings.savePath;
-            comboBox1.SelectedIndex = settings.saveExtension;
-            comboBox2.SelectedIndex = settings.saveName;
-            comboBox3.SelectedIndex = settings.openApp;
-            checkBox1.Checked = settings.isShowPreview;
-            checkBox2.Checked = settings.isPlaySound;
+            textBox1.Text = settings.SavePath;
+            comboBox1.SelectedIndex = settings.SaveExtension;
+            comboBox2.SelectedIndex = settings.SaveName;
+            comboBox3.SelectedIndex = settings.OpenApp;
+            checkBox1.Checked = settings.IsShowPreview;
+            checkBox2.Checked = settings.IsPlaySound;
             checkBox3.Checked = Helper.CheckStartOnBoot();
 
             soundPlayer = new SoundPlayer(Properties.Resources.Screenshot);
             window1 = new PreviewWindow();
-            window1.openAction = OpenApp;
+            window1.OpenImageAction = OpenImage;
         }
 
 
         #region MyRegion
 
-        void OpenApp()
+        void OpenImage()
         {
-            if (settings.openApp == 0)
+            if (settings.OpenApp == 0)
             {
                 Process.Start(new ProcessStartInfo
                 {
                     FileName = @"C:\Windows\System32\mspaint.exe",
-                    Arguments = $"\"{tmp}\"",
+                    Arguments = $"\"{saveFilePath}\"",
                     UseShellExecute = true
                 });
             }
@@ -59,14 +59,14 @@ namespace ASSWinFormsApp1
         {
             if (Clipboard.ContainsImage())
             {
-                if (!Directory.Exists(settings.savePath))
+                if (!Directory.Exists(settings.SavePath))
                 {
-                    Directory.CreateDirectory(settings.savePath);
+                    Directory.CreateDirectory(settings.SavePath);
                 }
 
                 string ext = "png";
                 ImageFormat imageFormat = ImageFormat.Png;
-                switch (settings.saveExtension)
+                switch (settings.SaveExtension)
                 {
                     case 0:
                         imageFormat = ImageFormat.Png;
@@ -82,31 +82,31 @@ namespace ASSWinFormsApp1
                         break;
                 }
 
-                if (settings.saveName == 0)
+                if (settings.SaveName == 0)
                 {
                     string name = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-                    tmp = Path.Combine(settings.savePath, $"{name}.{ext}");
+                    saveFilePath = Path.Combine(settings.SavePath, $"{name}.{ext}");
                 }
                 else
                 {
                     do
                     {
-                        tmp = Path.Combine(settings.savePath, $"{idx}.{ext}");
-                        idx++;
-                    } while (File.Exists(tmp));
+                        saveFilePath = Path.Combine(settings.SavePath, $"{nameIndex}.{ext}");
+                        nameIndex++;
+                    } while (File.Exists(saveFilePath));
                 }
 
                 Image image = Clipboard.GetImage();
-                image.Save(tmp, imageFormat);
+                image.Save(saveFilePath, imageFormat);
 
-                if (settings.isPlaySound)
+                if (settings.IsPlaySound)
                 {
                     soundPlayer.Play();
                 }
 
-                if (settings.isShowPreview)
+                if (settings.IsShowPreview)
                 {
-                    window1.SetImage(tmp);
+                    window1.SetImage(saveFilePath);
                 }
             }
         }
@@ -144,10 +144,10 @@ namespace ASSWinFormsApp1
                 e.Cancel = true;
                 this.Hide();
 
-                if (settings.isFirstRun)
+                if (settings.IsFirstRun)
                 {
                     notifyIcon1.ShowBalloonTip(1000, "", "程序正在后台运行", ToolTipIcon.None);
-                    settings.isFirstRun = false;
+                    settings.IsFirstRun = false;
                 }
             }
             else
@@ -157,39 +157,34 @@ namespace ASSWinFormsApp1
             }
         }
 
-        #endregion
-
-
-        #region MyRegion
-
         private void button1_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
-                settings.savePath = textBox1.Text = folderBrowserDialog.SelectedPath;
+                settings.SavePath = textBox1.Text = folderBrowserDialog.SelectedPath;
             }
         }
 
         private void comboBox1_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            settings.saveExtension = comboBox1.SelectedIndex;
+            settings.SaveExtension = comboBox1.SelectedIndex;
         }
 
         private void comboBox2_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            settings.saveName = comboBox2.SelectedIndex;
+            settings.SaveName = comboBox2.SelectedIndex;
         }
 
         private void comboBox3_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            settings.openApp = comboBox3.SelectedIndex;
+            settings.OpenApp = comboBox3.SelectedIndex;
         }
 
         private void checkBox1_Click(object sender, EventArgs e)
         {
-            settings.isShowPreview = checkBox1.Checked;
-            if (!settings.isShowPreview)
+            settings.IsShowPreview = checkBox1.Checked;
+            if (!settings.IsShowPreview)
             {
                 window1.SetHide();
             }
@@ -197,7 +192,7 @@ namespace ASSWinFormsApp1
 
         private void checkBox2_Click(object sender, EventArgs e)
         {
-            settings.isPlaySound = checkBox2.Checked;
+            settings.IsPlaySound = checkBox2.Checked;
         }
 
         private void checkBox3_Click(object sender, EventArgs e)
@@ -208,15 +203,15 @@ namespace ASSWinFormsApp1
                 Helper.RemoveStartOnBoot();
         }
 
-        #endregion
-
-
-        #region MyRegion
-
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             this.Show();
         }
+
+        #endregion
+
+
+        #region MyRegion
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {

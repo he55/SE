@@ -11,13 +11,13 @@ namespace ASSWinFormsApp1
 
         private Settings() { }
 
-        public bool isFirstRun { get; set; } = true;
-        public string savePath { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-        public int saveName { get; set; }
-        public int saveExtension { get; set; }
-        public int openApp { get; set; }
-        public bool isShowPreview { get; set; } = true;
-        public bool isPlaySound { get; set; } = true;
+        public bool IsFirstRun { get; set; } = true;
+        public string SavePath { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        public int SaveName { get; set; }
+        public int SaveExtension { get; set; }
+        public int OpenApp { get; set; }
+        public bool IsShowPreview { get; set; } = true;
+        public bool IsPlaySound { get; set; } = true;
 
         public static Settings Load()
         {

@@ -8,8 +8,8 @@ namespace ASSWinFormsApp1
     public partial class PreviewWindow : Window
     {
         bool isShow = true;
-        int time;
-        public Action openAction;
+        int delaySeconds;
+        public Action OpenImageAction;
 
         public PreviewWindow()
         {
@@ -33,7 +33,7 @@ namespace ASSWinFormsApp1
 
             image1.Source = bitmapImage;
 
-            time = 5;
+            delaySeconds = 5;
             if (!isShow)
             {
                 this.Opacity = 1;
@@ -60,12 +60,12 @@ namespace ASSWinFormsApp1
 
         async void DelayHide()
         {
-            while (time > 0)
+            while (delaySeconds > 0)
             {
                 if (!isShow)
                     return;
 
-                time--;
+                delaySeconds--;
                 await Task.Delay(1000);
             }
 
@@ -74,7 +74,7 @@ namespace ASSWinFormsApp1
 
         private void Grid_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            openAction?.Invoke();
+            OpenImageAction?.Invoke();
         }
     }
 }
