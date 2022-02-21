@@ -131,7 +131,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(268, 81);
+            this.checkBox1.Location = new System.Drawing.Point(290, 81);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(48, 16);
             this.checkBox1.TabIndex = 6;
@@ -142,7 +142,7 @@
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(268, 103);
+            this.checkBox2.Location = new System.Drawing.Point(290, 103);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(48, 16);
             this.checkBox2.TabIndex = 7;
@@ -186,7 +186,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(136, 60);
+            this.label4.Location = new System.Drawing.Point(199, 75);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(53, 12);
             this.label4.TabIndex = 11;
@@ -198,7 +198,7 @@
             this.comboBox3.FormattingEnabled = true;
             this.comboBox3.Items.AddRange(new object[] {
             "画图"});
-            this.comboBox3.Location = new System.Drawing.Point(138, 81);
+            this.comboBox3.Location = new System.Drawing.Point(196, 96);
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(62, 20);
             this.comboBox3.TabIndex = 12;
