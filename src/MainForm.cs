@@ -115,9 +115,16 @@ namespace ASSWinFormsApp1
         {
             if (nCode == HC_ACTION)
             {
-                if (((int)wParam == WM_KEYUP || (int)wParam == WM_SYSKEYUP) && lParam.vkCode == VK_SNAPSHOT)
+                if (lParam.vkCode == VK_SNAPSHOT)
                 {
-                    SaveImage();
+                    if ((int)wParam == WM_KEYUP || (int)wParam == WM_SYSKEYUP)
+                    {
+                        SaveImage();
+                    }
+                    else
+                    {
+                        _previewWindow.SetHide();
+                    }
                 }
             }
             return CallNextHookEx(_hhook, nCode, wParam, ref lParam);
