@@ -220,11 +220,6 @@ namespace ASSWinFormsApp1
 
         #region 菜单事件
 
-        private void toolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
         {
             this.Show();
