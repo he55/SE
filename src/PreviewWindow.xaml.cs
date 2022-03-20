@@ -7,14 +7,13 @@ namespace ASSWinFormsApp1
 {
     public partial class PreviewWindow : Window
     {
-        bool _isShow = true;
+        bool _isShow;
         int _delaySeconds;
         public Action OpenImageAction;
 
         public PreviewWindow()
         {
             InitializeComponent();
-            SetHide();
         }
 
         public void SetImage(string path)
@@ -42,6 +41,7 @@ namespace ASSWinFormsApp1
                 this.Top = workArea.Height - this.Height;
 
                 _isShow = true;
+
                 DelayHide();
             }
         }
@@ -51,8 +51,8 @@ namespace ASSWinFormsApp1
             if (_isShow)
             {
                 this.Opacity = 0;
-                this.Left = SystemParameters.PrimaryScreenWidth;
-                this.Top = SystemParameters.PrimaryScreenHeight;
+                this.Left = -10000;
+                this.Top = -10000;
 
                 _isShow = false;
             }

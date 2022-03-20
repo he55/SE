@@ -9,7 +9,7 @@
         ResizeMode="CanMinimize"
         ShowInTaskbar="False"
         Topmost="True"
-        WindowStyle="None"
+        WindowStyle="None" Left="-10000" Top="-10000"
         mc:Ignorable="d">
     <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="-1" />

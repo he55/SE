@@ -135,7 +135,7 @@ namespace ASSWinFormsApp1
 
         #region 控件事件
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void MainForm_Load(object sender, EventArgs e)
         {
             _hookProc = new HookProc(LowLevelKeyboardProc);
             IntPtr hh = GetModuleHandle(null);
@@ -144,7 +144,7 @@ namespace ASSWinFormsApp1
             _previewWindow.Show();
         }
 
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing)
             {
@@ -213,16 +213,12 @@ namespace ASSWinFormsApp1
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             this.Show();
+            this.Activate();
         }
-
-        #endregion
-
-
-        #region 菜单事件
 
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
         {
-            this.Show();
+            notifyIcon1_MouseDoubleClick(null, null);
         }
 
         private void toolStripMenuItem4_Click(object sender, EventArgs e)
@@ -235,6 +231,12 @@ namespace ASSWinFormsApp1
 
         #region PInvoke
 
+        const int HC_ACTION = 0;
+        const int WH_KEYBOARD_LL = 13;
+        const int WM_KEYUP = 0x0101;
+        const int WM_SYSKEYUP = 0x0105;
+        const int VK_SNAPSHOT = 0x2C;
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
         public struct KBDLLHOOKSTRUCT
         {
@@ -244,13 +246,6 @@ namespace ASSWinFormsApp1
             public uint time;
             public UIntPtr dwExtraInfo;
         }
-
-
-        const int HC_ACTION = 0;
-        const int WH_KEYBOARD_LL = 13;
-        const int WM_KEYUP = 0x0101;
-        const int WM_SYSKEYUP = 0x0105;
-        const int VK_SNAPSHOT = 0x2C;
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate IntPtr HookProc(int nCode, IntPtr wParam, ref KBDLLHOOKSTRUCT lParam);
