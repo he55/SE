@@ -32,6 +32,7 @@ namespace ASSWinFormsApp1
             checkBox2.Checked = _settings.IsPlaySound;
             checkBox3.Checked = Helper.CheckStartOnBoot();
 
+            _hookProc = new HookProc(LowLevelKeyboardProc);
             _soundPlayer = new SoundPlayer(Properties.Resources.Screenshot);
             _previewWindow = new PreviewWindow();
             _previewWindow.OpenImageAction = OpenImage;
@@ -60,9 +61,7 @@ namespace ASSWinFormsApp1
             if (Clipboard.ContainsImage())
             {
                 if (!Directory.Exists(_settings.SavePath))
-                {
                     Directory.CreateDirectory(_settings.SavePath);
-                }
 
                 string ext = "png";
                 ImageFormat imageFormat = ImageFormat.Png;
@@ -100,14 +99,10 @@ namespace ASSWinFormsApp1
                 image.Save(_saveFilePath, imageFormat);
 
                 if (_settings.IsPlaySound)
-                {
                     _soundPlayer.Play();
-                }
 
                 if (_settings.IsShowPreview)
-                {
                     _previewWindow.SetImage(_saveFilePath);
-                }
             }
         }
 
@@ -118,13 +113,9 @@ namespace ASSWinFormsApp1
                 if (lParam.vkCode == VK_SNAPSHOT)
                 {
                     if ((int)wParam == WM_KEYUP || (int)wParam == WM_SYSKEYUP)
-                    {
                         SaveImage();
-                    }
                     else
-                    {
                         _previewWindow.SetHide();
-                    }
                 }
             }
             return CallNextHookEx(_hhook, nCode, wParam, ref lParam);
@@ -137,7 +128,6 @@ namespace ASSWinFormsApp1
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            _hookProc = new HookProc(LowLevelKeyboardProc);
             IntPtr hh = GetModuleHandle(null);
             _hhook = SetWindowsHookEx(WH_KEYBOARD_LL, _hookProc, hh, 0);
 
@@ -168,33 +158,30 @@ namespace ASSWinFormsApp1
         {
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
-            {
                 _settings.SavePath = textBox1.Text = folderBrowserDialog.SelectedPath;
+        }
+
+        private void comboBox_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (sender == comboBox1)
+            {
+                _settings.SaveExtension = comboBox1.SelectedIndex;
             }
-        }
-
-        private void comboBox1_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            _settings.SaveExtension = comboBox1.SelectedIndex;
-        }
-
-        private void comboBox2_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            _settings.SaveName = comboBox2.SelectedIndex;
-        }
-
-        private void comboBox3_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            _settings.OpenApp = comboBox3.SelectedIndex;
+            else if (sender == comboBox2)
+            {
+                _settings.SaveName = comboBox2.SelectedIndex;
+            }
+            else if (sender == comboBox3)
+            {
+                _settings.OpenApp = comboBox3.SelectedIndex;
+            }
         }
 
         private void checkBox1_Click(object sender, EventArgs e)
         {
             _settings.IsShowPreview = checkBox1.Checked;
             if (!_settings.IsShowPreview)
-            {
                 _previewWindow.SetHide();
-            }
         }
 
         private void checkBox2_Click(object sender, EventArgs e)
