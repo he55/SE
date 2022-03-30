@@ -11,11 +11,11 @@ namespace ASSWinFormsApp1
 {
     public partial class MainForm : Form
     {
-        HookProc _hookProc;
+        readonly HookProc _hookProc;
+        readonly Settings _settings = Settings.Load();
+        readonly SoundPlayer _soundPlayer;
+        readonly PreviewWindow _previewWindow;
         IntPtr _hhook;
-        Settings _settings = Settings.Load();
-        SoundPlayer _soundPlayer;
-        PreviewWindow _previewWindow;
         string _saveFilePath;
         int _nameIndex = 1;
 
@@ -128,8 +128,8 @@ namespace ASSWinFormsApp1
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            IntPtr hh = GetModuleHandle(null);
-            _hhook = SetWindowsHookEx(WH_KEYBOARD_LL, _hookProc, hh, 0);
+            IntPtr hModule = GetModuleHandle(null);
+            _hhook = SetWindowsHookEx(WH_KEYBOARD_LL, _hookProc, hModule, 0);
 
             _previewWindow.Show();
         }
