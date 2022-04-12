@@ -12,10 +12,10 @@ namespace ASSWinFormsApp1
     public partial class MainForm : Form
     {
         readonly HookProc _hookProc;
+        readonly IntPtr _hhook;
         readonly Settings _settings = Settings.Load();
         readonly SoundPlayer _soundPlayer;
         readonly PreviewWindow _previewWindow;
-        IntPtr _hhook;
         string _saveFilePath;
         int _nameIndex = 1;
 
@@ -33,6 +33,7 @@ namespace ASSWinFormsApp1
             checkBox3.Checked = Helper.CheckStartOnBoot();
 
             _hookProc = new HookProc(LowLevelKeyboardProc);
+            _hhook = SetWindowsHookEx(WH_KEYBOARD_LL, _hookProc, GetModuleHandle(null), 0);
             _soundPlayer = new SoundPlayer(Properties.Resources.Screenshot);
             _previewWindow = new PreviewWindow();
             _previewWindow.OpenImageAction = OpenImage;
@@ -128,9 +129,6 @@ namespace ASSWinFormsApp1
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            IntPtr hModule = GetModuleHandle(null);
-            _hhook = SetWindowsHookEx(WH_KEYBOARD_LL, _hookProc, hModule, 0);
-
             _previewWindow.Show();
         }
 
@@ -164,17 +162,11 @@ namespace ASSWinFormsApp1
         private void comboBox_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (sender == comboBox1)
-            {
                 _settings.SaveExtension = comboBox1.SelectedIndex;
-            }
             else if (sender == comboBox2)
-            {
                 _settings.SaveName = comboBox2.SelectedIndex;
-            }
             else if (sender == comboBox3)
-            {
                 _settings.OpenApp = comboBox3.SelectedIndex;
-            }
         }
 
         private void checkBox1_Click(object sender, EventArgs e)
